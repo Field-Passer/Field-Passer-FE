@@ -31,7 +31,7 @@ const Board = () => {
   });
 
   useEffect(() => {
-    setPage(2);
+    setPage(1);
     endRef.current = false;
     preventRef.current = true;
   }, [catagoryVal, districtVal, stadiumVal]);
@@ -75,7 +75,6 @@ const Board = () => {
     }
   }, [page]);
 
-  console.log(page);
   return (
     <div className='px-[20px] min-h-[100vh]'>
       <Searchbar />
