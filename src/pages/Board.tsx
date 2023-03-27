@@ -51,7 +51,7 @@ const Board = () => {
     getPost();
   }, [page]);
 
-  const obsHandler = (entries: any) => {
+  const obsHandler = (entries: IntersectionObserverEntry[]) => {
     //옵저버 콜백함수
     const target = entries[0];
     if (!endRef.current && target.isIntersecting && preventRef.current) {
