@@ -78,7 +78,7 @@ const BoardDetails = () => {
   // 더보기 버튼 함수
   const morePage = () => {
     dispatch(unselected('all'));
-    dispatch(savePostMore([district, data?.districtName]));
+    dispatch(savePostMore([[], data?.districtName]));
     navigate('/boardMore');
   };
 

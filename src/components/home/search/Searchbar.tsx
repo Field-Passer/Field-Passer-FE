@@ -70,7 +70,6 @@ const Searchbar = () => {
 
   // 검색 버튼 함수
   const selectSearch = async () => {
-    const res = await getSearchPostList(catagorySelect, districtSelect, stadiumSelect, 1);
     if (
       catagorySelect === catagoryVal &&
       districtSelect === districtVal &&
@@ -78,7 +77,7 @@ const Searchbar = () => {
       link === '/board'
     )
       return;
-    else dispatch(savePost([catagorySelect, districtSelect, stadiumSelect, res.content]));
+    else dispatch(savePost([catagorySelect, districtSelect, stadiumSelect, []]));
     if (link !== '/board') dispatch(unselected('all'));
     navigate('/board');
   };

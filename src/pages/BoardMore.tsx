@@ -3,7 +3,7 @@ import Searchbar from '../components/home/search/Searchbar';
 import PostList from '../components/PostList';
 import { RootState } from '@src/store/store';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { scrollMorePost } from '@src/store/postSlice';
+import { savePostMore, scrollMorePost } from '@src/store/postSlice';
 import { getSearchPostList } from '@src/api/request';
 
 const BoardMore = () => {
@@ -23,6 +23,8 @@ const BoardMore = () => {
   });
 
   useEffect(() => {
+    dispatch(savePostMore([[], postMoreDistrict]));
+
     //옵저버 생성
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
     if (target.current) observer.observe(target.current);
@@ -32,7 +34,7 @@ const BoardMore = () => {
   }, []);
 
   useEffect(() => {
-    if (page > 1) getPost();
+    getPost();
   }, [page]);
 
   const obsHandler = (entries: any) => {
