@@ -36,9 +36,13 @@ const Join = () => {
       profileImg: z
         .any()
         .default(null)
-        .refine((file) => file !== null, {
-          message: '.jpg, .jpeg, .png, gif 형식에 맞는 파일을 업로드해주세요.',
-        })
+        .refine(
+          (file) =>
+            !file?.[0] || file == '' || file !== null || file == undefined || file.length == 0,
+          {
+            message: '이미지 파일을 업로드해주세요.',
+          },
+        )
         .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type), {
           message: '.jpg, .jpeg, .png, gif 형식에 맞는 파일을 업로드해주세요.',
         })
@@ -66,6 +70,7 @@ const Join = () => {
   const onSubmit: SubmitHandler<formSchema> = async (data) => {
     console.log(watch(data.profileImg));
     const { email, passwordCheck, memberName, profileImg } = data;
+    console.log(profileImg);
     console.log(profileImg[0]);
     const formData = new FormData();
     formData.append('email', email);
@@ -76,8 +81,8 @@ const Join = () => {
     });
     formData.append('profileImg', profileImg[0]);
     console.log(data);
-    const { ok, authData } = await join(formData);
-    console.log(authData);
+    // const { ok, authData } = await join(formData);
+    // console.log(authData);
     // setConfirmModal(true);
     let entries = formData.entries();
     for (const pair of entries) {
@@ -179,7 +184,7 @@ const Join = () => {
               </label> */}
 
               <div>
-                <div className='flex gap-[10px] relative'>
+                <div className='flex flex-wrap justify-center gap-[10px] relative text-center'>
                   <input
                     id='images'
                     type='file'
@@ -192,9 +197,6 @@ const Join = () => {
                     // ref={imgRef}
                     name='profileImg'
                   />
-                  {/* {errors.profileImg && (
-                    <p className='text-xs text-red-600 py-3'>{errors.profileImg.message}</p>
-                  )} */}
                   {avatarPreview && !errors.profileImg ? (
                     <>
                       <img

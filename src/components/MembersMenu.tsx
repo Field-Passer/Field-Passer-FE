@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@src/store/store';
 import { SET_AUTH } from '@src/store/authSlice';
 import { logout } from '@src/api/request';
+import { SET_USER, DELETE_USER } from '@src/store/userSlice';
 
 const MembersMenu = () => {
   // if (로그인되지 않은 상태) {고객센터/회원가입/로그인}
@@ -11,18 +12,20 @@ const MembersMenu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { authenticated } = useSelector((state: RootState) => state.auth);
+  const { memberName } = useSelector((state: RootState) => state.user);
 
   const logoutHandler = async () => {
     const { ok, code, authData } = await logout();
-    // console.log(authData);
     if (ok && code === 200 && authData) {
       dispatch(SET_AUTH(false));
+      dispatch(DELETE_USER());
       navigate('/');
     }
   };
 
   return (
     <div className='h-10 flex justify-end items-center pr-8 text-sm text-hoverfield'>
+      {authenticated ? <p>{memberName} 님 안녕하세요!</p> : ''}
       <Link to='/help' className='mx-8 hover:font-bold'>
         고객센터
       </Link>
