@@ -1,7 +1,7 @@
 import { PostDataType } from '@src/util/userPageTypes';
 import { File } from 'buffer';
 import { request, requestForm } from './core/api';
-import { getCookie, setCookie } from '@src/util/cookie';
+// import { getCookie, setCookie } from '@src/util/cookie';
 
 // 관리자 페이지 회원 정보 리스트 조회
 export const getMembersList = async (page: number = 1) => {
@@ -406,11 +406,54 @@ export const getDetailPostData = async (id: string | undefined) => {
 };
 
 // 게시글 삭제
-export const DeletePost = async (postId : string | undefined) => {
+export const DeletePost = async (postId: string | undefined) => {
   try {
     await request.put(`api/post/delete/${postId}`);
-    alert('삭제 완료되었습니다.')
+    alert('삭제 완료되었습니다.');
   } catch (error) {
     console.log(error);
+  }
+};
+
+// 마이페이지 관심글 조회
+//
+
+// 마이페이지 내가 쓴 게시글 조회
+export const getMyPosts = async () => {
+  try {
+    const response = await request(`/api/search/post/:memberId`, {
+      method: 'GET',
+    });
+    console.log(response);
+    return {
+      ok: true,
+      myPostData: response.data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+    };
+  }
+};
+// 마이페이지 내가 쓴 문의글 조회
+//
+
+// 사용자 회원정보조회
+export const getUserInfo = async () => {
+  try {
+    const response = await request(`/api/:memberid`, {
+      method: 'GET',
+    });
+    console.log(response);
+    return {
+      ok: true,
+      myInfo: response.data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+    };
   }
 };
