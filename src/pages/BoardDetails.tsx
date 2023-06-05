@@ -9,6 +9,9 @@ import { PostType } from './../util/userPageTypes';
 import { useDispatch } from 'react-redux';
 import { savePostMore } from '@src/store/postSlice';
 import { unselected } from '@src/store/categorySlice';
+import { HiOutlineChatBubbleLeftRight } from 'react-icons/hi2';
+import { BsEye } from 'react-icons/bs';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 const BoardDetails = () => {
   let { id } = useParams(); // 게시글 id
@@ -78,7 +81,7 @@ const BoardDetails = () => {
   // 더보기 버튼 함수
   const morePage = () => {
     dispatch(unselected('all'));
-    dispatch(savePostMore([district, data?.districtName]));
+    dispatch(savePostMore([[], data?.districtName]));
     navigate('/boardMore');
   };
 
@@ -115,9 +118,15 @@ const BoardDetails = () => {
         <p className='text-sm leading-normal pt-2 pb-2'>{data?.content}</p>
         <div className='flex items-center justify-between'>
           <p className='flex gap-[5px]'>
-            <span className='text-xs text-gray-500'>관심 {data?.wishCount}</span>
-            <span className='text-xs text-gray-500'>· 채팅 0 ·</span>
-            <span className='text-xs text-gray-500'>조회 {data?.viewCount}</span>
+            <span className='text-xs text-gray-500'>
+              <AiOutlineHeart className='inline' /> {data?.wishCount}
+            </span>
+            <span className='text-xs text-gray-500'>
+              · <HiOutlineChatBubbleLeftRight className='inline' /> 0 ·
+            </span>
+            <span className='text-xs text-gray-500'>
+              <BsEye className='inline' /> {data?.viewCount}
+            </span>
           </p>
           <div>
             <button className='px-[10px] py-[7px] text-xs bg-gray-300 text-white rounded mr-[10px]'>

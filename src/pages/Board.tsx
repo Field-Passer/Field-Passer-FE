@@ -4,7 +4,7 @@ import PostList from '../components/PostList';
 import { RootState } from '@src/store/store';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getSearchPostList } from '@src/api/request';
-import { scrollPost } from '@src/store/postSlice';
+import { savePost, scrollPost } from '@src/store/postSlice';
 
 const Board = () => {
   const dispatch = useDispatch();
@@ -31,12 +31,14 @@ const Board = () => {
   });
 
   useEffect(() => {
-    setPage(2);
+    setPage(1);
     endRef.current = false;
     preventRef.current = true;
   }, [catagoryVal, districtVal, stadiumVal]);
 
   useEffect(() => {
+    dispatch(savePost([catagoryVal, districtVal, stadiumVal, []]));
+
     //옵저버 생성
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
     if (target.current) observer.observe(target.current);
@@ -46,10 +48,10 @@ const Board = () => {
   }, []);
 
   useEffect(() => {
-    if (page > 1) getPost();
+    getPost();
   }, [page]);
 
-  const obsHandler = (entries: any) => {
+  const obsHandler = (entries: IntersectionObserverEntry[]) => {
     //옵저버 콜백함수
     const target = entries[0];
     if (!endRef.current && target.isIntersecting && preventRef.current) {
